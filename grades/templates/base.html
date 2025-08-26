@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}My Site{% endblock %}</title>
+  {% block head_extra %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'grades/css/style.css' %}">
+</head>
+<body>
+    {% if messages %}                           
+  <ul class="messages">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+<nav style="margin-bottom: 20px;">
+  <a href="{% url 'home' %}" class="button-link">Home</a> | 
+  <a href="{% url 'grading' %}" class="button-link">Grading</a> | 
+  <a href="{% url 'prelim_list' %}" class="button-link">Records</a> |
+  <a href="{% url 'student_create' %}" class="button-link">Add Student</a> |
+</nav>
+  <hr>
+  <main class="{% block main_class %}page-default{% endblock %}">
+  {% block content %}{% endblock %}
+  {% block scripts %}{% endblock %}
+    </main>
+</body>
+</html>

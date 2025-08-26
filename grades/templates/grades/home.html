@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin-top: 50px;">
+  <h1>Welcome!</h1>
+  <p style="margin-top: 20px;">
+    <a href="{% url 'grading' %}" style="font-size: 1.2em; font-weight: bold;">
+      Start Grading
+    </a>
+  </p>
+</div>
+{% endblock %}

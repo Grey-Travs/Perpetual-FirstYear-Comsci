@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Grading{% endblock %}
+
+{% block content %}
+<h1>Grading</h1>
+
+
+<form method="get" style="margin-bottom: 1rem;">  
+  <label for="term">What are you grading?</label>
+  <select id="term" name="term" onchange="this.form.submit()">  
+    <option value="prelim"  {% if term == 'prelim' %}selected{% endif %}>Prelim</option>
+    <option value="midterm" {% if term == 'midterm' %}selected{% endif %}>Midterm</option>
+    <option value="final"   {% if term == 'final' %}selected{% endif %}>Finals</option>
+  </select>
+  <noscript><button type="submit">Go</button></noscript>
+</form>
+
+
+<h2>{{ term_label }} Form</h2>  
+<form method="post">            
+  {% csrf_token %}
+  <!-- keep the chosen term when posting -->
+  <input type="hidden" name="term" value="{{ term }}">  
+  <table>
+    {{ form.as_table }}
+  </table>
+  {% if form.errors %}                      
+    <div style="color: red;">
+      <strong>Please fix the errors above.</strong>
+    </div>
+  {% endif %}
+  <button type="submit">Save</button>
+  <a href="{% url 'prelim_list' %}" style="margin-left: 8px;">View Records</a>
+</form>
+{% if term == 'prelim' and prelim is not None %}   
+  <hr>
+  <h3>Prelim Results</h3>
+  <p><strong>Attendance Score:</strong> {{ att|floatformat:2 }}</p>
+  <p><strong>Class Standing :</strong> {{ cs|floatformat:2 }}</p>
+  <p><strong>Prelim Grade   :</strong> {{ prelim|floatformat:2 }}</p>
+
+  <details>
+    <summary><strong>Required grades for Midterm and Finals to pass</strong></summary>
+    <p>Target Overall: <strong>75%</strong></p>
+    <p>Required Midterm: {{ need_75|floatformat:2 }}</p>
+    <p>Required Final  : {{ need_75|floatformat:2 }}</p>
+    {% if not possible_75 %}
+      <em>Note: This value is outside 0–100.</em>
+    {% endif %}
+  </details>
+
+  <details>
+    <summary><strong>Required grade to be a Dean's Lister</strong></summary>
+    <p>Target Overall: <strong>90%</strong></p>
+    <p>Required Midterm: {{ need_90|floatformat:2 }}</p>
+    <p>Required Final  : {{ need_90|floatformat:2 }}</p>
+    {% if not possible_90 %}
+      <em>Note: This value is outside 0–100.</em>
+    {% endif %}
+  </details>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Prelim Entry & Calculator{% endblock %}
+{% block content %}
+<h1>Prelim Entry & Calculator</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}
+  </table>
+  <button type="submit">Save & Compute</button>
+</form>
+
+{% if record %}
+  <hr>
+  <h2>Results for {{ record.student.name }} ({{ record.student.course }})</h2>
+  <p><strong>Attendance Score:</strong> {{ att|floatformat:2 }}</p>
+  <p><strong>Class Standing :</strong> {{ cs|floatformat:2 }}</p>
+  <p><strong>Prelim Grade   :</strong> {{ prelim|floatformat:2 }}</p>
+
+  <details>
+    <summary><strong>Required grades for Midterm and Finals to pass</strong></summary>
+    <p>Target Overall: <strong>75%</strong></p>
+    <p>Required Midterm (if Midterm=Final): {{ need_75|floatformat:2 }}</p>
+    <p>Required Final (same as Midterm): {{ need_75|floatformat:2 }}</p>
+    {% if not possible_75 %}
+      <em>Note: This value is outside 0–100, so it isn’t achievable under equal Midterm/Final.</em>
+    {% endif %}
+  </details>
+
+  <details>
+    <summary><strong>Required grade to be a Dean's Lister</strong></summary>
+    <p>Target Overall: <strong>90%</strong></p>
+    <p>Required Midterm (if Midterm=Final): {{ need_90|floatformat:2 }}</p>
+    <p>Required Final (same as Midterm): {{ need_90|floatformat:2 }}</p>
+    {% if not possible_90 %}
+      <em>Note: This value is outside 0–100, so it isn’t achievable under equal Midterm/Final.</em>
+    {% endif %}
+  </details>
+{% endif %}
+{% endblock %}

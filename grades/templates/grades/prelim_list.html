@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Records{% endblock %}
+{% block content %}
+<h1>Records</h1>
+
+<!-- ======= PRELIM SECTION ======= -->
+<h2>Prelim</h2>
+<table border="1" cellpadding="6">
+  <tr>
+    <th>Student</th>
+    <th>Exam</th>
+    <th>Quizzes</th>
+    <th>Requirements</th>
+    <th>Recitation</th>
+    <th>Absences</th>
+    <th>Attendance</th>
+    <th>Class Standing</th>
+    <th>Prelim Grade</th>
+    <th>Needed 75%</th>
+    <th>Needed 90%</th>
+    <th>Created</th>
+  </tr>
+  {% for r in records %}
+  <tr>
+    <td>{{ r.student.name }}</td>
+    <td>{{ r.prelim_exam }}</td>
+    <td>{{ r.quizzes }}</td>
+    <td>{{ r.requirements }}</td>
+    <td>{{ r.recitation }}</td>
+    <td>{{ r.absences }}</td>
+    <td>{{ r.attendance_score|floatformat:2 }}</td>
+    <td>{{ r.class_standing|floatformat:2 }}</td>
+    <td>{{ r.prelim_grade|floatformat:2 }}</td>
+    <td>{{ r.required_75|floatformat:2 }}</td>  
+    <td>{{ r.required_90|floatformat:2 }}</td>  
+    <td>{{ r.created_at|date:"Y-m-d H:i" }}</td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="12">No prelim records yet.</td></tr>
+  {% endfor %}
+</table>
+
+<!-- ======= MIDTERM SECTION  ======= -->
+<details style="margin-top:16px;">
+  <summary><strong>Midterm</strong></summary>
+  <table border="1" cellpadding="6" style="margin-top:8px;">
+    <tr>
+      <th>Student</th>
+      <th>Exam</th>
+      <th>Quizzes</th>
+      <th>Requirements</th>
+      <th>Recitation</th>
+      <th>Absences</th>
+      <th>Midterm Grade</th>
+      <th>Created</th>
+    </tr>
+    {% for r in midterm_records %}
+      <tr>
+        <td>{{ r.student.name }}</td>
+        <td>{{ r.midterm_exam }}</td>
+        <td>{{ r.quizzes }}</td>
+        <td>{{ r.requirements }}</td>
+        <td>{{ r.recitation }}</td>
+        <td>{{ r.absences }}</td>
+        <td>{{ r.midterm_grade|floatformat:2 }}</td>
+        <td>{{ r.created_at|date:"Y-m-d H:i" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="8">No midterm records yet.</td></tr>
+    {% endfor %}
+  </table>
+</details>
+
+<!-- ======= FINALS SECTION  ======= -->
+<details style="margin-top:16px;">
+  <summary><strong>Finals</strong></summary>
+  <table border="1" cellpadding="6" style="margin-top:8px;">
+    <tr>
+      <th>Student</th>
+      <th>Exam</th>
+      <th>Quizzes</th>
+      <th>Requirements</th>
+      <th>Recitation</th>
+      <th>Absences</th>
+      <th>Final Grade</th>
+      <th>Created</th>
+    </tr>
+    {% for r in final_records %}
+      <tr>
+        <td>{{ r.student.name }}</td>
+        <td>{{ r.final_exam }}</td>
+        <td>{{ r.quizzes }}</td>
+        <td>{{ r.requirements }}</td>
+        <td>{{ r.recitation }}</td>
+        <td>{{ r.absences }}</td>
+        <td>{{ r.final_grade|floatformat:2 }}</td>
+        <td>{{ r.created_at|date:"Y-m-d H:i" }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="8">No finals records yet.</td></tr>
+    {% endfor %}
+  </table>
+</details>
+{% endblock %}
