@@ -5,40 +5,46 @@
 
 <!-- ======= PRELIM SECTION ======= -->
 <h2>Prelim</h2>
-<table border="1" cellpadding="6">
-  <tr>
-    <th>Student</th>
-    <th>Exam</th>
-    <th>Quizzes</th>
-    <th>Requirements</th>
-    <th>Recitation</th>
-    <th>Absences</th>
-    <th>Attendance</th>
-    <th>Class Standing</th>
-    <th>Prelim Grade</th>
-    <th>Needed 75%</th>
-    <th>Needed 90%</th>
-    <th>Created</th>
-  </tr>
-  {% for r in records %}
-  <tr>
-    <td>{{ r.student.name }}</td>
-    <td>{{ r.prelim_exam }}</td>
-    <td>{{ r.quizzes }}</td>
-    <td>{{ r.requirements }}</td>
-    <td>{{ r.recitation }}</td>
-    <td>{{ r.absences }}</td>
-    <td>{{ r.attendance_score|floatformat:2 }}</td>
-    <td>{{ r.class_standing|floatformat:2 }}</td>
-    <td>{{ r.prelim_grade|floatformat:2 }}</td>
-    <td>{{ r.required_75|floatformat:2 }}</td>  
-    <td>{{ r.required_90|floatformat:2 }}</td>  
-    <td>{{ r.created_at|date:"Y-m-d H:i" }}</td>
-  </tr>
-  {% empty %}
-  <tr><td colspan="12">No prelim records yet.</td></tr>
-  {% endfor %}
-</table>
+<div class="table-box">        <!-- NEW -->
+  <table>
+    <tr>
+      <th>Student</th>
+      <th>Exam</th>
+      <th>Quizzes</th>
+      <th>Requirements</th>
+      <th>Recitation</th>
+      <th>Absences</th>
+      <th>Attendance</th>
+      <th>Class Standing</th>
+      <th>Prelim Grade</th>
+      <th>Pass/Fail</th>
+      <th>Needed 75%</th>
+      <th>Needed 90%</th>
+      <th>Created</th>
+    </tr>
+    {% for r in records %}
+    <tr>
+      <td>{{ r.student.name }}</td>
+      <td>{{ r.prelim_exam }}</td>
+      <td>{{ r.quizzes }}</td>
+      <td>{{ r.requirements }}</td>
+      <td>{{ r.recitation }}</td>
+      <td>{{ r.absences }}</td>
+      <td>{{ r.attendance_score|floatformat:2 }}</td>
+      <td>{{ r.class_standing|floatformat:2 }}</td>
+      <td>{{ r.prelim_grade|floatformat:2 }}</td>
+      <td class="{% if r.pass_fail_status == 'PASS' %}status-pass{% else %}status-fail{% endif %}">
+        {{ r.pass_fail_status }}
+      </td>
+      <td>{{ r.required_75|floatformat:2 }}</td>
+      <td>{{ r.required_90|floatformat:2 }}</td>
+      <td>{{ r.created_at|date:"Y-m-d H:i" }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="13">No prelim records yet.</td></tr>
+    {% endfor %}
+  </table>
+</div>
 
 <!-- ======= MIDTERM SECTION  ======= -->
 <details style="margin-top:16px;">

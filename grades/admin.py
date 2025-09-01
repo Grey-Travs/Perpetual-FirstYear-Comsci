@@ -10,18 +10,12 @@ class StudentAdmin(admin.ModelAdmin):
 
 @admin.register(PrelimRecord)
 class PrelimRecordAdmin(admin.ModelAdmin):
-    list_display = (
-        "student",
-        "prelim_exam",
-        "quizzes",
-        "requirements",
-        "recitation",
-        "absences",
-        "get_attendance",
-        "get_class_standing",
-        "get_prelim_grade",
-        "created_at",
-    )
+    list_display = ("student", "prelim_exam", "quizzes", "requirements", "recitation",
+        "absences", "get_attendance", "get_class_standing",
+        "get_prelim_grade", "get_pass_fail",
+        "get_required_75", "get_required_90", "created_at")
+    
+    readonly_fields = ("prelim_grade", "status")
     list_filter = ("student__course", "created_at")
     search_fields = ("student__name", "student__course")
     autocomplete_fields = ("student",)
@@ -70,6 +64,12 @@ class PrelimRecordAdmin(admin.ModelAdmin):
         if not obj or obj.pk is None:
             return "-"
         return f"{obj.prelim_grade():.2f}"
+    
+    @admin.display(description="Pass/Fail") 
+    def get_pass_fail(self, obj):
+        if not obj or obj.pk is None:
+            return "-"
+        return obj.pass_fail_status()
 
     @admin.display(description="Needed Each for 75% (Midterm & Final)")
     def get_required_75(self, obj):

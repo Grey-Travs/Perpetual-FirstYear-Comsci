@@ -44,6 +44,13 @@ class PrelimRecord(models.Model):
     def prelim_grade(self) -> float:
          exam = self.prelim_exam or 0.0
          return 0.60 * exam + 0.10 * self.attendance_score() + 0.30 * self.class_standing()
+
+    def pass_fail_status(self):
+        grade = self.prelim_grade()
+        absences = self.absences or 0
+        if grade >= 75 and absences < 4:
+            return "PASS"
+        return "FAIL"
         
 
     # Required Midterm/Final (assuming overall = (Prelim + Midterm + Final)/3, and Midterm=Final)
